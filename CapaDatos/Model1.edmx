@@ -1,0 +1,679 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="db_a83dd0_markeplaceModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CARRITO">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_PRODUCTO" Type="int" Nullable="false" />
+          <Property Name="ID_USUARIO" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CATEGORIA">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ESTADO">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PRODUCTO">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ID_USUARIO" Type="int" Nullable="false" />
+          <Property Name="Precio" Type="int" Nullable="false" />
+          <Property Name="ID_Categoria" Type="int" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Estado" Type="int" Nullable="false" />
+          <Property Name="Ubicacion" Type="varchar" MaxLength="400" Nullable="false" />
+          <Property Name="Fecha_Registro" Type="datetime" Nullable="false" />
+          <Property Name="imagen" Type="image" Nullable="false" />
+        </EntityType>
+        <EntityType Name="reporte_usuario">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_usuario_reporte" Type="int" Nullable="false" />
+          <Property Name="ID_usuario_reportado" Type="int" Nullable="false" />
+          <Property Name="ID_publicacion" Type="int" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ROL">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="USUARIO">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Correo" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Id_Rol" Type="int" Nullable="false" />
+          <Property Name="Id_Estado" Type="int" Nullable="false" />
+          <Property Name="Contrasena" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="TELEFONO" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'db_a83dd0_markeplace.dbo.MostrarCarrito' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="MostrarCarrito">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="ID_PRODUCTO" />
+            <PropertyRef Name="Nombre" />
+            <PropertyRef Name="Precio" />
+            <PropertyRef Name="Descripcion" />
+            <PropertyRef Name="ID_USUARIO" />
+            <PropertyRef Name="Estado" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="ID_PRODUCTO" Type="int" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Precio" Type="int" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="ID_USUARIO" Type="int" Nullable="false" />
+          <Property Name="imagen" Type="varbinary(max)" />
+          <Property Name="Estado" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'db_a83dd0_markeplace.dbo.TABLAREPORTE' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="TABLAREPORTE">
+          <Key>
+            <PropertyRef Name="IDProducto" />
+            <PropertyRef Name="Nombre" />
+          </Key>
+          <Property Name="IDProducto" Type="int" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Reportes" Type="int" />
+        </EntityType>
+        <Association Name="fk_Categoria1">
+          <End Role="CATEGORIA" Type="Self.CATEGORIA" Multiplicity="1" />
+          <End Role="PRODUCTO" Type="Self.PRODUCTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CATEGORIA">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PRODUCTO">
+              <PropertyRef Name="ID_Categoria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Estado1">
+          <End Role="ESTADO" Type="Self.ESTADO" Multiplicity="1" />
+          <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ESTADO">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="USUARIO">
+              <PropertyRef Name="Id_Estado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Estado2">
+          <End Role="ESTADO" Type="Self.ESTADO" Multiplicity="1" />
+          <End Role="PRODUCTO" Type="Self.PRODUCTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ESTADO">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PRODUCTO">
+              <PropertyRef Name="Estado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_PRODUCTO1">
+          <End Role="PRODUCTO" Type="Self.PRODUCTO" Multiplicity="1" />
+          <End Role="CARRITO" Type="Self.CARRITO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCTO">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CARRITO">
+              <PropertyRef Name="ID_PRODUCTO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Rol1">
+          <End Role="ROL" Type="Self.ROL" Multiplicity="1" />
+          <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ROL">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="USUARIO">
+              <PropertyRef Name="Id_Rol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Usuario1">
+          <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="1" />
+          <End Role="PRODUCTO" Type="Self.PRODUCTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USUARIO">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PRODUCTO">
+              <PropertyRef Name="ID_USUARIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_USUARIO2">
+          <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="1" />
+          <End Role="CARRITO" Type="Self.CARRITO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USUARIO">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CARRITO">
+              <PropertyRef Name="ID_USUARIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="db_a83dd0_markeplaceModelStoreContainer">
+          <EntitySet Name="CARRITO" EntityType="Self.CARRITO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CATEGORIA" EntityType="Self.CATEGORIA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ESTADO" EntityType="Self.ESTADO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PRODUCTO" EntityType="Self.PRODUCTO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="reporte_usuario" EntityType="Self.reporte_usuario" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ROL" EntityType="Self.ROL" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="USUARIO" EntityType="Self.USUARIO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MostrarCarrito" EntityType="Self.MostrarCarrito" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [MostrarCarrito].[ID] AS [ID], 
+    [MostrarCarrito].[ID_PRODUCTO] AS [ID_PRODUCTO], 
+    [MostrarCarrito].[Nombre] AS [Nombre], 
+    [MostrarCarrito].[Precio] AS [Precio], 
+    [MostrarCarrito].[Descripcion] AS [Descripcion], 
+    [MostrarCarrito].[ID_USUARIO] AS [ID_USUARIO], 
+    [MostrarCarrito].[imagen] AS [imagen], 
+    [MostrarCarrito].[Estado] AS [Estado]
+    FROM [dbo].[MostrarCarrito] AS [MostrarCarrito]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="TABLAREPORTE" EntityType="Self.TABLAREPORTE" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [TABLAREPORTE].[IDProducto] AS [IDProducto], 
+    [TABLAREPORTE].[Nombre] AS [Nombre], 
+    [TABLAREPORTE].[Reportes] AS [Reportes]
+    FROM [dbo].[TABLAREPORTE] AS [TABLAREPORTE]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="fk_Categoria1" Association="Self.fk_Categoria1">
+            <End Role="CATEGORIA" EntitySet="CATEGORIA" />
+            <End Role="PRODUCTO" EntitySet="PRODUCTO" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Estado1" Association="Self.fk_Estado1">
+            <End Role="ESTADO" EntitySet="ESTADO" />
+            <End Role="USUARIO" EntitySet="USUARIO" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Estado2" Association="Self.fk_Estado2">
+            <End Role="ESTADO" EntitySet="ESTADO" />
+            <End Role="PRODUCTO" EntitySet="PRODUCTO" />
+          </AssociationSet>
+          <AssociationSet Name="fk_PRODUCTO1" Association="Self.fk_PRODUCTO1">
+            <End Role="PRODUCTO" EntitySet="PRODUCTO" />
+            <End Role="CARRITO" EntitySet="CARRITO" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Rol1" Association="Self.fk_Rol1">
+            <End Role="ROL" EntitySet="ROL" />
+            <End Role="USUARIO" EntitySet="USUARIO" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Usuario1" Association="Self.fk_Usuario1">
+            <End Role="USUARIO" EntitySet="USUARIO" />
+            <End Role="PRODUCTO" EntitySet="PRODUCTO" />
+          </AssociationSet>
+          <AssociationSet Name="fk_USUARIO2" Association="Self.fk_USUARIO2">
+            <End Role="USUARIO" EntitySet="USUARIO" />
+            <End Role="CARRITO" EntitySet="CARRITO" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="db_a83dd0_markeplaceModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityContainer Name="db_a83dd0_markeplaceEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <FunctionImport Name="sp_alterdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_creatediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dropdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(db_a83dd0_markeplaceModel.sp_helpdiagramdefinition_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(db_a83dd0_markeplaceModel.sp_helpdiagrams_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_renamediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="new_diagramname" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_upgraddiagrams" />
+          <EntitySet Name="reporte_usuario" EntityType="db_a83dd0_markeplaceModel.reporte_usuario" />
+          <EntitySet Name="CARRITOes" EntityType="db_a83dd0_markeplaceModel.CARRITO" />
+          <EntitySet Name="CATEGORIAs" EntityType="db_a83dd0_markeplaceModel.CATEGORIA" />
+          <EntitySet Name="ESTADOes" EntityType="db_a83dd0_markeplaceModel.ESTADO" />
+          <EntitySet Name="PRODUCTOes" EntityType="db_a83dd0_markeplaceModel.PRODUCTO" />
+          <EntitySet Name="ROLs" EntityType="db_a83dd0_markeplaceModel.ROL" />
+          <EntitySet Name="USUARIOs" EntityType="db_a83dd0_markeplaceModel.USUARIO" />
+          <AssociationSet Name="fk_PRODUCTO11" Association="db_a83dd0_markeplaceModel.fk_PRODUCTO11">
+            <End Role="PRODUCTO1" EntitySet="PRODUCTOes" />
+            <End Role="CARRITO1" EntitySet="CARRITOes" />
+          </AssociationSet>
+          <AssociationSet Name="fk_USUARIO21" Association="db_a83dd0_markeplaceModel.fk_USUARIO21">
+            <End Role="USUARIO1" EntitySet="USUARIOs" />
+            <End Role="CARRITO1" EntitySet="CARRITOes" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Categoria11" Association="db_a83dd0_markeplaceModel.fk_Categoria11">
+            <End Role="CATEGORIA1" EntitySet="CATEGORIAs" />
+            <End Role="PRODUCTO1" EntitySet="PRODUCTOes" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Estado11" Association="db_a83dd0_markeplaceModel.fk_Estado11">
+            <End Role="ESTADO1" EntitySet="ESTADOes" />
+            <End Role="USUARIO1" EntitySet="USUARIOs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Estado21" Association="db_a83dd0_markeplaceModel.fk_Estado21">
+            <End Role="ESTADO1" EntitySet="ESTADOes" />
+            <End Role="PRODUCTO1" EntitySet="PRODUCTOes" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Usuario11" Association="db_a83dd0_markeplaceModel.fk_Usuario11">
+            <End Role="USUARIO1" EntitySet="USUARIOs" />
+            <End Role="PRODUCTO1" EntitySet="PRODUCTOes" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Rol11" Association="db_a83dd0_markeplaceModel.fk_Rol11">
+            <End Role="ROL1" EntitySet="ROLs" />
+            <End Role="USUARIO1" EntitySet="USUARIOs" />
+          </AssociationSet>
+          <EntitySet Name="MostrarCarritoes" EntityType="db_a83dd0_markeplaceModel.MostrarCarrito" />
+          <EntitySet Name="TABLAREPORTEs" EntityType="db_a83dd0_markeplaceModel.TABLAREPORTE" />
+        </EntityContainer>
+        <ComplexType Name="sp_helpdiagramdefinition_Result">
+          <Property Type="Int32" Name="version" Nullable="true" />
+          <Property Type="Binary" Name="definition" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_helpdiagrams_Result">
+          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+          <Property Type="Int32" Name="OwnerID" Nullable="false" />
+        </ComplexType>
+        <EntityType Name="reporte_usuario">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_usuario_reporte" Type="Int32" Nullable="false" />
+          <Property Name="ID_usuario_reportado" Type="Int32" Nullable="false" />
+          <Property Name="ID_publicacion" Type="Int32" Nullable="false" />
+          <Property Name="descripcion" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="CARRITO">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="ID_PRODUCTO" Type="Int32" Nullable="false" />
+          <Property Name="ID_USUARIO" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="PRODUCTO" Relationship="db_a83dd0_markeplaceModel.fk_PRODUCTO11" FromRole="CARRITO1" ToRole="PRODUCTO1" />
+          <NavigationProperty Name="USUARIO" Relationship="db_a83dd0_markeplaceModel.fk_USUARIO21" FromRole="CARRITO1" ToRole="USUARIO1" />
+        </EntityType>
+        <EntityType Name="CATEGORIA">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="PRODUCTOes" Relationship="db_a83dd0_markeplaceModel.fk_Categoria11" FromRole="CATEGORIA1" ToRole="PRODUCTO1" />
+        </EntityType>
+        <EntityType Name="ESTADO">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="USUARIOs" Relationship="db_a83dd0_markeplaceModel.fk_Estado11" FromRole="ESTADO1" ToRole="USUARIO1" />
+          <NavigationProperty Name="PRODUCTOes" Relationship="db_a83dd0_markeplaceModel.fk_Estado21" FromRole="ESTADO1" ToRole="PRODUCTO1" />
+        </EntityType>
+        <EntityType Name="PRODUCTO">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ID_USUARIO" Type="Int32" Nullable="false" />
+          <Property Name="Precio" Type="Int32" Nullable="false" />
+          <Property Name="ID_Categoria" Type="Int32" Nullable="false" />
+          <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Estado" Type="Int32" Nullable="false" />
+          <Property Name="Ubicacion" Type="String" Nullable="false" MaxLength="400" FixedLength="false" Unicode="false" />
+          <Property Name="Fecha_Registro" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="imagen" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+          <NavigationProperty Name="CARRITOes" Relationship="db_a83dd0_markeplaceModel.fk_PRODUCTO11" FromRole="PRODUCTO1" ToRole="CARRITO1" />
+          <NavigationProperty Name="CATEGORIA" Relationship="db_a83dd0_markeplaceModel.fk_Categoria11" FromRole="PRODUCTO1" ToRole="CATEGORIA1" />
+          <NavigationProperty Name="ESTADO1" Relationship="db_a83dd0_markeplaceModel.fk_Estado21" FromRole="PRODUCTO1" ToRole="ESTADO1" />
+          <NavigationProperty Name="USUARIO" Relationship="db_a83dd0_markeplaceModel.fk_Usuario11" FromRole="PRODUCTO1" ToRole="USUARIO1" />
+        </EntityType>
+        <EntityType Name="ROL">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="USUARIOs" Relationship="db_a83dd0_markeplaceModel.fk_Rol11" FromRole="ROL1" ToRole="USUARIO1" />
+        </EntityType>
+        <EntityType Name="USUARIO">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Correo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Id_Rol" Type="Int32" Nullable="false" />
+          <Property Name="Id_Estado" Type="Int32" Nullable="false" />
+          <Property Name="Contrasena" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="TELEFONO" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CARRITOes" Relationship="db_a83dd0_markeplaceModel.fk_USUARIO21" FromRole="USUARIO1" ToRole="CARRITO1" />
+          <NavigationProperty Name="ESTADO" Relationship="db_a83dd0_markeplaceModel.fk_Estado11" FromRole="USUARIO1" ToRole="ESTADO1" />
+          <NavigationProperty Name="PRODUCTOes" Relationship="db_a83dd0_markeplaceModel.fk_Usuario11" FromRole="USUARIO1" ToRole="PRODUCTO1" />
+          <NavigationProperty Name="ROL" Relationship="db_a83dd0_markeplaceModel.fk_Rol11" FromRole="USUARIO1" ToRole="ROL1" />
+        </EntityType>
+        <Association Name="fk_PRODUCTO11">
+          <End Type="db_a83dd0_markeplaceModel.PRODUCTO" Role="PRODUCTO1" Multiplicity="1" />
+          <End Type="db_a83dd0_markeplaceModel.CARRITO" Role="CARRITO1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCTO1">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CARRITO1">
+              <PropertyRef Name="ID_PRODUCTO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_USUARIO21">
+          <End Type="db_a83dd0_markeplaceModel.USUARIO" Role="USUARIO1" Multiplicity="1" />
+          <End Type="db_a83dd0_markeplaceModel.CARRITO" Role="CARRITO1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USUARIO1">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CARRITO1">
+              <PropertyRef Name="ID_USUARIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Categoria11">
+          <End Type="db_a83dd0_markeplaceModel.CATEGORIA" Role="CATEGORIA1" Multiplicity="1" />
+          <End Type="db_a83dd0_markeplaceModel.PRODUCTO" Role="PRODUCTO1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CATEGORIA1">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PRODUCTO1">
+              <PropertyRef Name="ID_Categoria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Estado11">
+          <End Type="db_a83dd0_markeplaceModel.ESTADO" Role="ESTADO1" Multiplicity="1" />
+          <End Type="db_a83dd0_markeplaceModel.USUARIO" Role="USUARIO1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ESTADO1">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="USUARIO1">
+              <PropertyRef Name="Id_Estado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Estado21">
+          <End Type="db_a83dd0_markeplaceModel.ESTADO" Role="ESTADO1" Multiplicity="1" />
+          <End Type="db_a83dd0_markeplaceModel.PRODUCTO" Role="PRODUCTO1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ESTADO1">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PRODUCTO1">
+              <PropertyRef Name="Estado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Usuario11">
+          <End Type="db_a83dd0_markeplaceModel.USUARIO" Role="USUARIO1" Multiplicity="1" />
+          <End Type="db_a83dd0_markeplaceModel.PRODUCTO" Role="PRODUCTO1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USUARIO1">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PRODUCTO1">
+              <PropertyRef Name="ID_USUARIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Rol11">
+          <End Type="db_a83dd0_markeplaceModel.ROL" Role="ROL1" Multiplicity="1" />
+          <End Type="db_a83dd0_markeplaceModel.USUARIO" Role="USUARIO1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ROL1">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="USUARIO1">
+              <PropertyRef Name="Id_Rol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="MostrarCarrito">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="ID_PRODUCTO" />
+            <PropertyRef Name="Nombre" />
+            <PropertyRef Name="Precio" />
+            <PropertyRef Name="Descripcion" />
+            <PropertyRef Name="ID_USUARIO" />
+            <PropertyRef Name="Estado" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="ID_PRODUCTO" Type="Int32" Nullable="false" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Precio" Type="Int32" Nullable="false" />
+          <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ID_USUARIO" Type="Int32" Nullable="false" />
+          <Property Name="imagen" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Estado" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TABLAREPORTE">
+          <Key>
+            <PropertyRef Name="IDProducto" />
+            <PropertyRef Name="Nombre" />
+          </Key>
+          <Property Name="IDProducto" Type="Int32" Nullable="false" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Reportes" Type="Int32" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="db_a83dd0_markeplaceModelStoreContainer" CdmEntityContainer="db_a83dd0_markeplaceEntities">
+    <EntitySetMapping Name="sysdiagrams">
+      <EntityTypeMapping TypeName="IsTypeOf(db_a83dd0_markeplaceModel.sysdiagram)">
+        <MappingFragment StoreEntitySet="sysdiagrams">
+          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="definition" ColumnName="definition" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="reporte_usuario">
+      <EntityTypeMapping TypeName="IsTypeOf(db_a83dd0_markeplaceModel.reporte_usuario)">
+        <MappingFragment StoreEntitySet="reporte_usuario">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="ID_usuario_reporte" ColumnName="ID_usuario_reporte" />
+          <ScalarProperty Name="ID_usuario_reportado" ColumnName="ID_usuario_reportado" />
+          <ScalarProperty Name="ID_publicacion" ColumnName="ID_publicacion" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+          <EntitySetMapping Name="CARRITOes">
+            <EntityTypeMapping TypeName="db_a83dd0_markeplaceModel.CARRITO">
+              <MappingFragment StoreEntitySet="CARRITO">
+                <ScalarProperty Name="ID_USUARIO" ColumnName="ID_USUARIO" />
+                <ScalarProperty Name="ID_PRODUCTO" ColumnName="ID_PRODUCTO" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CATEGORIAs">
+            <EntityTypeMapping TypeName="db_a83dd0_markeplaceModel.CATEGORIA">
+              <MappingFragment StoreEntitySet="CATEGORIA">
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ESTADOes">
+            <EntityTypeMapping TypeName="db_a83dd0_markeplaceModel.ESTADO">
+              <MappingFragment StoreEntitySet="ESTADO">
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PRODUCTOes">
+            <EntityTypeMapping TypeName="db_a83dd0_markeplaceModel.PRODUCTO">
+              <MappingFragment StoreEntitySet="PRODUCTO">
+                <ScalarProperty Name="imagen" ColumnName="imagen" />
+                <ScalarProperty Name="Fecha_Registro" ColumnName="Fecha_Registro" />
+                <ScalarProperty Name="Ubicacion" ColumnName="Ubicacion" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="ID_Categoria" ColumnName="ID_Categoria" />
+                <ScalarProperty Name="Precio" ColumnName="Precio" />
+                <ScalarProperty Name="ID_USUARIO" ColumnName="ID_USUARIO" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ROLs">
+            <EntityTypeMapping TypeName="db_a83dd0_markeplaceModel.ROL">
+              <MappingFragment StoreEntitySet="ROL">
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="USUARIOs">
+            <EntityTypeMapping TypeName="db_a83dd0_markeplaceModel.USUARIO">
+              <MappingFragment StoreEntitySet="USUARIO">
+                <ScalarProperty Name="TELEFONO" ColumnName="TELEFONO" />
+                <ScalarProperty Name="Contrasena" ColumnName="Contrasena" />
+                <ScalarProperty Name="Id_Estado" ColumnName="Id_Estado" />
+                <ScalarProperty Name="Id_Rol" ColumnName="Id_Rol" />
+                <ScalarProperty Name="Correo" ColumnName="Correo" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MostrarCarritoes">
+            <EntityTypeMapping TypeName="db_a83dd0_markeplaceModel.MostrarCarrito">
+              <MappingFragment StoreEntitySet="MostrarCarrito">
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="imagen" ColumnName="imagen" />
+                <ScalarProperty Name="ID_USUARIO" ColumnName="ID_USUARIO" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Precio" ColumnName="Precio" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="ID_PRODUCTO" ColumnName="ID_PRODUCTO" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TABLAREPORTEs">
+            <EntityTypeMapping TypeName="db_a83dd0_markeplaceModel.TABLAREPORTE">
+              <MappingFragment StoreEntitySet="TABLAREPORTE">
+                <ScalarProperty Name="Reportes" ColumnName="Reportes" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IDProducto" ColumnName="IDProducto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+    </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

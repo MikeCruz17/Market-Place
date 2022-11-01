@@ -1,0 +1,84 @@
+﻿@model IEnumerable<CapaEntidad.USUARIO>
+
+@{
+    ViewBag.Title = "TablaUsuario";
+    Layout = "~/Views/Shared/_SearchBarTable.cshtml";
+}
+
+<div style="padding: 100px;" class="d-flex flex-column align-items-center">
+    <h2>Vista Usuarios</h2>
+
+    <div style="width: 100%;" class="d-flex flex-row justify-content-end">
+        <div style="margin: 5px;">@Html.ActionLink("AÑADIR", "AgregarUsuario", "Home", new { @class = "btn btn-primary" })</div>
+    </div>
+    <table class="table table-striped table-hover">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Correo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Id_Rol)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Id_Estado)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Contrasena)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TELEFONO)
+            </th>
+            <th></th>
+        </tr>
+        @foreach (var item in Model)
+        {
+    <tr class="Search">
+        <td>
+            @Html.DisplayFor(modelItem => item.Nombre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Correo)
+        </td>
+        <td>
+            @{
+                if (item.Id_Rol != 1)
+                {
+                    <span>Usuario</span>
+                }
+                else
+                {
+                    <span>Administrador</span>
+                }
+            }
+        </td>
+        <td>
+            @{
+                if (item.Id_Estado != 1)
+                {
+                    <span>Deshabilitado</span>
+                }
+                else
+                {
+                    <span>Habilitado</span>
+                }
+            }
+
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Contrasena)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TELEFONO)
+        </td>
+        <td>
+            @Html.ActionLink("EDITAR", "EditarUsuario", new { id = item.ID }, new { @class = "btn btn-warning" }) |
+            @Html.ActionLink("DESHABILITAR", "DeshabilitarUsuario", new { id = item.ID }, new { @class = "btn btn-danger" })
+        </td>
+    </tr>
+        }
+
+    </table>
+</div>

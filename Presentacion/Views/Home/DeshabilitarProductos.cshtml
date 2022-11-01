@@ -1,0 +1,42 @@
+﻿@model CapaEntidad.PRODUCTO
+
+@{
+    ViewBag.Title = "DeshabilitarProductos";
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+<div style="margin-top: 50px;" class="d-flex flex-column align-items-center">
+    <h2>DeshabilitarProductos</h2>
+    <div style="width: 400px;" class="d-flex flex-column align-items-center shadow-lg p-3 mb-5 bg-body rounded">
+        <br />
+        <strong>Producto: @*@Model.Nombre*@</strong>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.ID)
+
+        <div class="d-flex flex-column align-items-center">
+            <div class="">
+            @Html.LabelFor(model => model.Estado, htmlAttributes: new { @class = "control-label col-md-2" })
+                <select style="width: 200px;" class="form-control" id="Estado" name="Estado">
+                    <option value="1">Habilitado</option>
+                    <option value="2">Deshabilitado</option>
+                </select>
+                @Html.ValidationMessageFor(model => model.Estado, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input style="width: 100px; margin: 5px;" type="submit" value="GUARDAR" class="btn btn-primary" />
+            </div>
+        </div>
+        <div>
+            <span style="width: 200px; margin: 5px;">@Html.ActionLink("REGRESAR A LA LISTA", "Index", "Home", new { @class = "btn btn-secondary" })</span>
+        </div>
+    </div>
+
+</div>
+}

@@ -1,0 +1,332 @@
+﻿@model IEnumerable<CapaEntidad.MostrarCarrito>
+
+@{
+    ViewBag.Title = "ver_carrito";
+    Layout = "~/Views/Shared/_BarraNavegacion.cshtml";
+}
+
+@* LIBRERIA DE ALERTAS *@
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+
+<div id="PD">
+    <section class="h-100" style="background-color: #eee;">
+        <div class="container h-100 py-5">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-10">
+
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h3 class="fw-normal mb-0 text-black">Carrito de Compras</h3>
+
+                    </div>
+
+                    @if (TempData["Confirmacion2"] != null)
+                    {
+                        // #region MENSAJE DE PROCESO EXITOSO
+                        <script>
+
+
+                            Swal.fire({
+
+                                icon: 'success',
+                                title: 'Se han guardado los cambios correctamente.',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+
+                        </script>
+                        // #endregion
+                    }
+
+                    else if (TempData["Confirmacion"] != null)
+                    {
+                        <input hidden value="@ViewBag.Confirmacion" id="InputE" />
+
+                        // #region MENSAJE DE CONFIRMACION
+
+                        <script>
+
+                            var Val = document.getElementById('InputE').value;
+
+
+                            Swal.fire({
+                                icon: 'question',
+                                title: 'Desea eliminarlo?',
+                                showDenyButton: true,
+                                showCancelButton: true,
+                                confirmButtonText: 'Si',
+                                denyButtonText: `No`,
+
+                            }).then((result) => {
+                                /* Read more about isConfirmed, isDenied below */
+                                if (result.isConfirmed) {
+
+                                    function Cambio() {
+                                        document.getElementById('Opcion').value = "Si";
+                                        document.querySelector('#BTNDELETE').click();
+
+
+                                    }
+                                    Cambio();
+
+                                } else if (result.isDenied) {
+                                    Swal.fire('La petición fue cancelada.', '', 'info')
+                                }
+                            })
+
+
+
+
+                        </script>
+                        // #endregion
+                    }
+
+                    @*SI EL MODELO DEVUELVE NULO*@
+
+                    @if (Model.Count() > 0)
+                    {
+
+
+                        foreach (var item in Model)
+                        {
+
+                            <div class="card rounded-3 mb-4" style="height:300px;" id="card1">
+
+                                <div class="card-body p-4">
+                                    <div class="row d-flex justify-content-between align-items-center" onclick="Producto1(@item.ID_PRODUCTO)">
+
+                                        @if (item.Estado == 3)
+                                        {
+
+                                            <span id="validar" style="position: relative; right: -900px; color: green; font-size:18px;">
+
+                                                <svg xmlns="http://www.w3.org/2000/svg" height="19" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16" style="position:relative; top:-2px;">
+                                                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                                                </svg>
+
+                                                Vendido
+                                            </span>
+                                        }
+
+                                        <div class="col-md-2 col-lg-2 col-xl-2">
+                                            @*CONVERSION DE IMAGENES*@
+                                            @{ string Img = Convert.ToBase64String(item.imagen);
+                                            }
+
+                                            <img style="height:200px;" id="imagen1" src="@String.Format("data:image/jpeg;base64,{0}", Img)"
+                                                 alt="Cotton T-shirt">
+
+
+                                        </div>
+                                        <div class="col-md-3 col-lg-3 col-xl-3" style="position:absolute; right: 400px;">
+                                            <p class="lead fw-normal mb-2">@item.Nombre</p>
+                                            <p>@item.Descripcion</p>
+                                        </div>
+
+
+                                        <div class="col-md-2 col-lg-2 col-xl-2 offset-lg-1">
+
+
+                                            <h5 id="h5p" class="mb-0" style="position: absolute; left: 700px;">
+                                                $RD @item.Precio
+                                            </h5>
+
+
+                                        </div>
+
+                                        <div class="col-md-1 col-lg-1 col-xl-1 text-end">
+
+
+                                            @using (Html.BeginForm("EliminarProductoCarrito", "Usuario", FormMethod.Post))
+                                            {
+                                                <input type="hidden" value="@item.ID" name="ID" />
+                                                <input type="hidden" value="NA" name="Opcion" id="Opcion" />
+
+                                                <button type="submit" class="btn btn-outline-danger" style="width: 100px; position: absolute; left: 950px;" id="BTNDELETE">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                                                        <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z"></path>
+                                                    </svg>
+                                                    Borrar
+                                                </button>
+
+                                            }
+                                        </div>
+
+
+
+                                    </div>
+
+
+                                </div>
+
+
+                            </div>
+
+
+
+                        }
+                    }
+
+                    @*DE LO CONTRARIO*@
+
+                    else
+                    {
+
+                        <div style="position:relative; height: 400px; text-align:center;">
+
+                            <h1 style="position:relative; top:100px;">
+
+                                Actualmente no tiene ningún artículo agregado.
+
+                            </h1>
+
+
+                            <svg xmlns="http://www.w3.org/2000/svg" height="75" fill="currentColor" class="bi bi-cart-x-fill" viewBox="0 0 16 16" style="position:relative; top:150px;">
+                                <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7.354 5.646 8.5 6.793l1.146-1.147a.5.5 0 0 1 .708.708L9.207 7.5l1.147 1.146a.5.5 0 0 1-.708.708L8.5 8.207 7.354 9.354a.5.5 0 1 1-.708-.708L7.793 7.5 6.646 6.354a.5.5 0 1 1 .708-.708z" />
+                            </svg>
+
+                        </div>
+
+
+
+
+                    }
+
+                </div>
+            </div>
+        </div>
+
+    </section>
+</div>
+
+<style>
+
+    #card1 {
+        border-radius: 4px;
+        background: #fff;
+        box-shadow: 0 6px 10px rgba(0,0,0,.08), 0 0 6px rgba(0,0,0,.05);
+        transition: .3s transform cubic-bezier(.155,1.105,.295,1.12),.3s box-shadow,.3s -webkit-transform cubic-bezier(.155,1.105,.295,1.12);
+        padding: 12px 80px 18px 36px;
+        cursor: pointer;
+    }
+
+    .card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
+    }
+
+    #PD {
+        position: relative;
+        top: -10px;
+    }
+
+    body {
+        background-color: #eee;
+    }
+</style>
+
+
+
+<script>
+    //#region FUNCIONES
+        // FUNCION EN JQUERY QUE ME EJECUTA EL ACTIONRESULT PDETALLES Y ME RETORNA LA VISTA
+        // A LA VEZ ME VERIFICA LOS CAMBIOS, TAMBIEN ME DETECTA EL BOTON ATRAS DEL BOTON DEL
+        // MOUSE.
+
+    jQuery(document).ready(function ($) {
+
+        if (window.history && window.history.pushState) {
+
+            $(window).on('popstate', function () {
+                var hashLocation = location.hash;
+                var hashSplit = hashLocation.split("#!/");
+                var hashName = hashSplit[1];
+
+                if (hashName !== '') {
+                    var hash = window.location.hash;
+                    if (hash === '') {
+                        Producto();
+                    }
+                }
+            });
+
+            window.history.pushState('forward', null, '/Usuario/ver_carrito');
+
+        }
+
+    });
+
+        // FUNCION QUE ME EJECUTA EN AJAX EL ACTIONRESULT Y ME ENVIA UN DATO PARA LA CONFIRMACION
+
+    function Producto(){
+
+
+
+        $.ajax({
+            data: { "ID_Producto": 0 },
+                url: '@Url.Action("/PDetalles")',
+                type: "POST",
+                success: function (response) {
+
+                $('#PD').html(response);
+
+                }
+        });
+
+    }
+
+     // FUNCION QUE ME EJECUTA EN AJAX EL ACTIONRESULT Y ME ENVIA UN DATO PARA LA CONFIRMACION
+
+     function Carrito(){
+
+
+        $.ajax({
+
+                url: '@Url.Action("/ver_carrito")',
+                type: "POST",
+                success: function (response) {
+
+                $('#PD').html(response);
+
+                }
+        });
+
+    }
+
+
+
+        // EJECUCION DEL METODO PRODUCTO A TRAVES DEL EVENTO QUE ME IDENTIFICA LA PULSACION DE LA TECLA
+        // HACIA ATRAS DEL NAVEGADOR.
+        window.onpopstate = function () {
+            Producto();
+
+        }; history.pushState({}, '');
+
+    //FUNCION EN AJAX QUE RECIBE POR PARAMTETRO EL ID Y ME PERMITE ENVIAR LOS DATOS SEGUN EL ID CLICKEADO EN LA TARJETA, LUEGO
+    //RETORNA A LA VENTANA CORRESPONDIENTE
+
+    function Producto1(id) {
+
+        $.ajax({
+            data: { "ID_Producto": id },
+                url: '@Url.Action("/PDetalles")',
+                type: "POST",
+                success: function (response) {
+
+                $('#PD').html(response);
+
+                }
+                });
+                }
+
+
+    // #endregion
+</script>
+
+<style>
+    footer {
+        position: absolute;
+        top: 120px;
+    }
+</style>

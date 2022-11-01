@@ -1,0 +1,47 @@
+﻿@model CapaEntidad.USUARIO
+
+@{
+    ViewBag.Title = "Contacto";
+    Layout = "~/Views/Shared/_BarraNavegacion.cshtml";
+}
+
+
+
+<div style="margin-top: 50px;" class="d-flex flex-column align-items-center">
+    <div style="width: 400px;" class="d-flex flex-column align-items-center shadow-lg p-3 mb-5 bg-body rounded">
+        <h4>Contacto</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Nombre)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Correo)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Correo)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.TELEFONO)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TELEFONO)
+            </dd>
+
+        </dl>
+    </div>
+</div>
+<style>
+    footer {
+        position:relative;
+        top:220PX;
+    }
+</style>

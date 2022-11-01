@@ -1,0 +1,316 @@
+﻿@model CapaEntidad.PRODUCTO
+
+@{
+    ViewBag.Title = "EditarProductoUsuario";
+    Layout = "~/Views/Shared/_BarraNavegacion.cshtml";
+}
+
+@* LIBRERIA DE ALERTAS *@
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+@if (TempData["ConfirmacionCont"] != null)
+{
+
+
+    <script>
+
+        Swal.fire({
+            icon: 'question',
+            title: 'Desea guardar los cambios?',
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: 'Si',
+            denyButtonText: `No`,
+
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+
+                function Cambio() {
+                    document.getElementById('Opcion').value = "Si";
+                    document.querySelector('#BTNGUARDAR').click();
+
+
+                }
+                Cambio();
+
+            } else if (result.isDenied) {
+                Swal.fire('La petición fue cancelada.', '', 'info')
+            }
+        })
+
+
+
+
+    </script>
+
+}
+
+
+
+
+@using (Html.BeginForm("ActualizarProductos", "Usuario", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal p-3">
+        <h4>Editar información del Producto</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.ID)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control  w-25" } })
+                @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Precio, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Precio, new { htmlAttributes = new { @class = "form-control  w-25" } })
+                @Html.ValidationMessageFor(model => model.Precio, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Estado</label>
+            <br />
+
+            <input hidden value="@Model.Estado" id="Estado" />
+
+
+            <select class="form-select" name="ESTADO" style="width:313px;" id="Select1">
+                <option selected>Seleccionar Estado</option>
+                <option value="1">En venta</option>
+                <option value="2">Vendido</option>
+
+            </select>
+
+
+        </div>
+
+        <div class="form-group">
+            <label>Categoria</label>
+            <br />
+
+            <input hidden value="@Model.ID_Categoria" id="Cat" />
+
+
+            <select class="form-select" name="ID_Categoria" style="width:313px;" id="Select2">
+                <option selected>Seleccionar Categoria</option>
+                <option value="1">PC/Computadora</option>
+                <option value="2">Audifonos</option>
+                <option value="3">Laptop</option>
+
+            </select>
+
+
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control w-50" } })
+                @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Ubicacion, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Ubicacion, new { htmlAttributes = new { @class = "form-control w-50" } })
+                @Html.ValidationMessageFor(model => model.Ubicacion, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="formFile" class="form-label">Imagen</label>
+            <input class="form-control w-auto" type="file" id="formFile" name="imagene" onchange="preview()">
+
+        </div>
+
+
+        <div class="d-grid gap-2 d-md-block">
+
+
+            <input name="Opcion" id="Opcion" hidden value="NA" />
+
+           
+                <a class="btn btn-outline-secondary" href="@Url.Action("ListadoProductosUsuario", "Usuario")">Regresar</a>
+           
+
+            <button class="btn btn-outline-dark" type="submit" id="BTNGUARDAR">Guardar</button>
+
+
+        </div>
+
+        <div id="div2">
+
+            @if (Model.imagen == null)
+            {
+
+
+                @*CONVERSION DE IMAGENES*@
+
+                var Imagen = (Byte[])TempData["Imagen"];
+                string Img = Convert.ToBase64String(Imagen);
+
+                <img id="frame" src="@String.Format("data:image/jpeg;base64,{0}", Img)" style="height:400px;" />
+
+
+            }
+            else
+            {
+                string Img = Convert.ToBase64String(Model.imagen);
+
+                <img id="frame" src="@String.Format("data:image/jpeg;base64,{0}", Img)" style="height:400px;" />
+
+            }
+
+
+        </div>
+
+    </div>
+}
+
+
+
+
+
+
+<style>
+
+    .form-horizontal {
+        position: relative;
+    }
+
+    footer {
+        position: relative;
+        top: 300px;
+    }
+
+    #div2 {
+        float: right;
+        height: 300px;
+        width: 300px;
+        position: relative;
+        top: -400px;
+        right: 280px;
+    }
+
+    img {
+        border: 3px solid #ddd;
+        border-radius: 5px;
+        padding: 10px;
+    }
+
+        img:hover {
+            box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+        }
+</style>
+
+
+<script>
+
+
+
+    //////////////////////////////////////////////////////////////////////////////////////////
+    // ------------------------------------ SELECT CATEGORIA ------------------------------ //
+     //////////////////////////////////////////////////////////////////////////////////////////
+
+
+    // CONDICIONAL QUE ME SELECCIONA SEGUN LA OPCION ELEGIDA EN EL CAMPO ESTADO.
+
+    // VARIABLE TIPO INPUT HIDDEN QUE ALMACENA EL VALOR EN LA BD.
+    var Resultado = document.getElementById('Cat').value;
+
+
+    // CONDICIONAL SEGUN EL RESULTADO
+    if (Resultado == 1) {
+
+        // OPCION A ELEGIR SI EL VALOR ES IGUAL A UNO.
+
+        const SeleccionOpcion = (e) => {
+            const $select = document.querySelector('#Select2');
+            $select.value = 1;
+        }
+
+        SeleccionOpcion();
+
+    }
+
+    else if (Resultado == 2) {
+
+        // OPCION A ELEGIR SI EL VALOR ES IGUAL A UNO.
+
+        const SeleccionOpcion = (e) => {
+            const $select = document.querySelector('#Select2');
+            $select.value = 2;
+        }
+
+        SeleccionOpcion();
+    }
+
+    else {
+        // OPCION A ELEGIR SI EL VALOR ES IGUAL A DOS.
+
+        const SeleccionOpcion = (e) => {
+            const $select = document.querySelector('#Select2');
+            $select.value = 3;
+        }
+
+        SeleccionOpcion();
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+    // ------------------------------------ SELECT ESTADO ------------------------------ //
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+
+
+    // VARIABLE TIPO INPUT HIDDEN QUE ALMACENA EL VALOR EN LA BD.
+    var Result = document.getElementById('Estado').value;
+
+
+    // CONDICIONAL SEGUN EL RESULTADO
+    if (Result == 1) {
+
+        // OPCION A ELEGIR SI EL VALOR ES IGUAL A UNO.
+
+        const SeleccionOpcion = (e) => {
+            const $select = document.querySelector('#Select1');
+            $select.value = 1;
+        }
+
+        SeleccionOpcion();
+
+    }
+
+    else {
+        // OPCION A ELEGIR SI EL VALOR ES IGUAL A DOS.
+
+        const SeleccionOpcion = (e) => {
+            const $select = document.querySelector('#Select1');
+            $select.value = 3;
+        }
+
+        SeleccionOpcion();
+    }
+
+
+    @*// FUNCION QUE ME MUESTRA UNA VISUALIZACION DE LA IMAGEN CARGADA.*@
+
+    function preview() {
+        frame.src = URL.createObjectURL(event.target.files[0]);
+    }
+
+
+
+</script>
+

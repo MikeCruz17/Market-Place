@@ -1,0 +1,86 @@
+body {
+    background: #4e73df;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.titleForm {
+    margin: auto;
+}
+
+form {
+    display: flex;
+    justify-content: center;
+}
+
+.form-horizontal {
+    background: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+    width: 500px;
+    padding: 20px 40px;
+    margin: 30px 0px;
+    border-radius: 5px;
+}
+
+.InputEmail {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    width: 400px;
+    border-radius: 20px;
+    padding: 8px 18px;
+    font-size: smaller;
+    border: 1px solid #808B96;
+    outline: none;
+    box-shadow: 0px 0px 0px 0px rgba(93, 173, 226, 0.2);
+    transition: box-shadow .2s ease-in-out;
+}
+
+    .InputEmail:focus {
+        box-shadow: 0px 0px 0px 4px rgba(93, 173, 226, 0.2);
+    }
+
+.InputPass {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    width: 400px;
+    border-radius: 20px;
+    padding: 8px 18px;
+    font-size: smaller;
+    border: 1px solid #808B96;
+    outline: none;
+    box-shadow: 0px 0px 0px 0px rgba(93, 173, 226, 0.2);
+    transition: box-shadow .2s ease-in-out;
+}
+
+    .InputPass:focus {
+        box-shadow: 0px 0px 0px 4px rgba(93, 173, 226, 0.2);
+    }
+
+.btnSingIn {
+    margin: 10px 0px;
+    color: #fff;
+    background-color: #4e73df;
+    border-color: #4e73df;
+    width: 400px;
+    height: 38px;
+    border-radius: 20px;
+    font-weight: 500;
+}
+
+
+.subDiv {
+    margin: auto;
+}
+
+.divButton {
+    display: flex;
+    justify-content: center;
+}
+
+.error {
+    color: #dc3545;
+}

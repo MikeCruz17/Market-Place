@@ -1,0 +1,38 @@
+﻿@model IEnumerable<CapaEntidad.CATEGORIA>
+
+@{
+    ViewBag.Title = "TablaCategoria";
+    Layout = "~/Views/Shared/_SearchBarTable.cshtml";
+}
+<div style="padding: 100px;" class="d-flex flex-column align-items-center">
+
+<h2>CATEGORIAS</h2>
+
+<div style="width: 100%;" class="d-flex flex-row justify-content-end">
+    <div style="margin: 5px;">@Html.ActionLink("AÑADIR", "AgregarCategoria", "Home", new { @class = "btn btn-primary" })</div>
+</div>
+<table class="table table-striped table-hover">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Descripcion)
+        </th>
+        <th class="d-flex justify-content-center">
+            ACCIONES
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr class="Search">
+            <td>
+                @Html.DisplayFor(modelItem => item.Descripcion)
+            </td>
+            <td class="d-flex justify-content-center">
+                @Html.ActionLink("EDITAR", "EditarCategoria", new { id = item.ID }, new { @class = "btn btn-warning" })
+            </td>
+        </tr>
+    }
+
+</table>
+
+</div>

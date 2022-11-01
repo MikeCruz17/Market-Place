@@ -1,0 +1,42 @@
+﻿@model CapaEntidad.USUARIO
+
+@{
+    ViewBag.Title = "DeshabilitarUsuario";
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+<div style="margin-top: 50px;" class="d-flex flex-column align-items-center">
+
+    <h2>Deshabilitar Usuario</h2>
+    <div style="width: 400px;" class="d-flex flex-column align-items-center shadow-lg p-3 mb-5 bg-body rounded">
+        <br />
+        <strong>Usuario: @Model.Nombre</strong>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.ID)
+
+        <div class="d-flex flex-column align-items-center">
+            <div class="col-md-10">
+            @Html.LabelFor(model => model.Id_Estado, htmlAttributes: new { @class = "control-label col-md-2" })
+                <select style="width: 200px;" class="form-control" id="Id_Estado" name="Id_Estado">
+                    <option value="1">Habilitado</option>
+                    <option value="2">Deshabilitado</option>
+                </select>
+                @Html.ValidationMessageFor(model => model.Id_Estado, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="d-flex flex-column align-items-center">
+            <div class="">
+                <input style="width: 100px; margin: 5px;" type="submit" value="GUARDAR" class="btn btn-primary" />
+            </div>
+        </div>
+        <div>
+            <span style="width: 200px; margin: 5px;">@Html.ActionLink("REGRESAR", "TablaUsuario", "Home", new { @class = "btn btn-secondary" })</span>
+        </div>
+    </div>
+</div>
+}

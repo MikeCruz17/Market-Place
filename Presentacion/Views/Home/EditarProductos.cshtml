@@ -1,0 +1,90 @@
+﻿@model CapaEntidad.PRODUCTO
+
+@{
+    ViewBag.Title = "EditarProductos";
+}
+
+@*<h2>EditarProductos</h2>*@
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+<div style="margin-top: 50px;" class="d-flex flex-column align-items-center">
+
+    <div style="width: 400px;" class="d-flex flex-column align-items-center shadow-lg p-3 mb-5 bg-body rounded">
+        <h4>PRODUCTO</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.ID)
+
+        <div style="width: 220px;" class="d-flex flex-column align-items-center">
+            <div class="col-md-10">
+            @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div style="width: 220px;" class="d-flex flex-column align-items-center">
+            <div class="col-md-10">
+            @Html.LabelFor(model => model.ID_USUARIO, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.EditorFor(model => model.ID_USUARIO, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ID_USUARIO, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div style="width: 220px;" class="d-flex flex-column align-items-center">
+            <div class="col-md-10">
+            @Html.LabelFor(model => model.Precio, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.EditorFor(model => model.Precio, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Precio, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div style="width: 220px;" class="d-flex flex-column align-items-center">
+            <div class="col-md-10">
+            @Html.LabelFor(model => model.ID_Categoria, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.EditorFor(model => model.ID_Categoria, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ID_Categoria, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div style="width: 220px;" class="d-flex flex-column align-items-center">
+            <div class="col-md-10">
+            @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div style="width: 220px;" class="d-flex flex-column align-items-center">
+            <div class="col-md-10">
+            @Html.LabelFor(model => model.Estado, htmlAttributes: new { @class = "control-label col-md-2" })
+                <select class="form-control" id="Id_Estado" name="Id_Estado" disabled>
+                    <option value="1">Habilitado</option>
+                    <option value="2">Deshabilitado</option>
+                </select>
+                @Html.ValidationMessageFor(model => model.Estado, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="d-flex flex-column align-items-center">
+            <div class="col-md-10">
+            @Html.LabelFor(model => model.Ubicacion, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.EditorFor(model => model.Ubicacion, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Ubicacion, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input style="width: 100px; margin: 10px;" type="submit" value="GUARDAR" class="btn btn-primary" />
+            </div>
+        </div>
+        <div>
+            <span style="width: 200px; margin: 5px;">@Html.ActionLink("REGRESAR", "TablaProductos", "Home", new { @class = "btn btn-secondary" })</span>
+        </div>
+    </div>
+</div>
+}
+

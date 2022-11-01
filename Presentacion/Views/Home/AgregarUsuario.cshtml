@@ -1,0 +1,88 @@
+﻿@model CapaEntidad.USUARIO
+
+@{ 
+
+    Layout = "~/Views/Shared/_BarraNavAdmin.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div style="margin-top: 50px;" class="d-flex flex-column align-items-center">
+        <div style="width: 400px;" class="d-flex flex-column align-items-center shadow-lg p-3 mb-5 bg-body rounded">
+            <h4>NUEVO USUARIO</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="d-flex flex-column align-items-center">
+                <div class="">
+                    @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="d-flex flex-column align-items-center">
+                <div class="">
+                    @Html.LabelFor(model => model.Correo, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.EditorFor(model => model.Correo, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Correo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="d-flex flex-column align-items-center">
+                <div class="">
+                    @Html.LabelFor(model => model.Id_Rol, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <select style="width: 206px;" class="form-select" id="Id_Rol" name="Id_Rol">
+                        <option selected>Seleccionar Rol</option>
+                        <option value="1">Administrador</option>
+                        <option value="2">Usuario</option>
+                    </select>
+                    @Html.ValidationMessageFor(model => model.Id_Rol, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="d-flex flex-column align-items-center">
+                <div class="">
+                    @Html.LabelFor(model => model.Id_Estado, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <select style="width: 206px;" class="form-select" id="Id_Estado" name="Id_Estado">
+                        <option selected>Seleccionar Estado</option>
+                        <option value="1">Habilitado</option>
+                        <option value="2">Deshabilitado</option>
+                    </select>
+                    @Html.ValidationMessageFor(model => model.Id_Estado, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="d-flex flex-column align-items-center">
+                <div class="">
+                    @Html.LabelFor(model => model.Contrasena, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.EditorFor(model => model.Contrasena, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Contrasena, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="d-flex flex-column align-items-center">
+                <div class="">
+                    @Html.LabelFor(model => model.TELEFONO, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.EditorFor(model => model.TELEFONO, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.TELEFONO, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="d-flex flex-column align-items-center">
+                <div class="">
+                    <input style="width: 180px; margin: 5px;" type="submit" value="AGREGAR" class="btn btn-primary" />
+                </div>
+                <div>
+                    <span style="width: 207px;">@Html.ActionLink("REGRESAR", "DashBoard", "Home", new { @class = "btn btn-secondary" })</span>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

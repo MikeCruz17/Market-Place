@@ -1,0 +1,257 @@
+﻿@model IEnumerable<CapaEntidad.PRODUCTO>
+
+@{
+    ViewBag.Title = "buscar_N";
+    Layout = "~/Views/Shared/_BarraNavegacion.cshtml";
+}
+
+@* LIBRERIA DE ALERTAS *@
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+<script>
+
+    // FUNCION QUE ME ACTIVA EL SPINNER OCULTO
+    function SpinnerActivar() {
+
+        document.getElementById('divSpinner').hidden = false;
+    }
+
+    // FUNCION QUE ME DESACTIVA EL SPINNER
+    function SpinnerOcultar() {
+
+        document.getElementById('divSpinner').hidden = true;
+    }
+
+</script>
+
+@* SPINNER O CIRCULO DE CARGA *@
+<div class="spinner-grow text-dark" role="status" id="divSpinner" hidden style="position: absolute; top:-550px; right:-1350px;">
+
+</div>
+
+
+<div id="DetallesP">
+
+
+    <div class="container-fluid w-100">
+        <div class="row align-items-start">
+
+            <div class="col-3">
+
+                <br />
+                <h3>Filtros</h3>
+                <hr />
+                <br />
+                @*SELECT PARA SELECCIONAR CATEGORIA.*@
+
+                <h5>Categoría</h5>
+                <select class="form-select w-50" aria-label="Categoría" name="Categoria" onclick="Categoria()">
+                    <option selected>Seleccionar</option>
+                    <option value="1">PC/Computadora</option>
+                    <option value="2">Audifonos</option>
+                    <option value="3">Laptop</option>
+                </select>
+
+
+                <br />
+                @*TEXT BOX PARA FILTAR POR RANGO DE PRECIO*@
+
+                <div>
+
+
+                    <h5>Precio</h5>
+
+                    <div id="div3">
+
+                        <input class="form-control w-50" name="PrecioMinimo" placeholder="Precio Mínimo $RD" />
+                        <input class="form-control w-50" name="PrecioMaximo" placeholder="Precio Máximo $RD" />
+                        <button class="btn btn-dark" type="submit" onclick="Precio()">Buscar</button>
+                    </div>
+
+
+
+
+                </div>
+
+
+
+            </div>
+
+            <div class="col-1">
+
+                <div class="row align-items-center">
+                    <div class="d-flex" style="height: 800px;">
+                        <div class="vr"></div>
+                    </div>
+
+                </div>
+
+
+            </div>
+
+            <div class="col" id="Productos">
+
+                <br />
+                <h2>Resultados</h2>
+
+
+                <div class="row align-items-end">
+                    <div class="row row-cols-1 row-cols-md-2 g-4">
+
+
+
+
+
+                        @foreach (var item in Model)
+                        {
+                            <div class="col" onclick="Producto(@item.ID)">
+                                <div class="card" id="card1" style="height:420px; width: 28rem;">
+
+                                    @if (item.Estado == 3)
+                                    {
+
+                                        <span id="validar" style="position: relative; top:-12px; right:-327px; color: green; font-size:20px;">
+
+                                            <svg xmlns="http://www.w3.org/2000/svg" height="18" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16" style="position:relative; top:-2px; right:-2.8px;">
+                                                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                                            </svg>
+
+                                            Vendido
+                                        </span>
+                                    }
+
+                                    @*CONVERSION DE IMAGENES*@
+                                    @{ string Img = Convert.ToBase64String(item.imagen);
+                                    }
+
+
+                                    <div class="text-center" style="height:200PX;">
+                                        <img id="imagen1" src="@String.Format("data:image/jpeg;base64,{0}", Img)" />
+                                    </div>
+
+                                    <div class="card-body">
+
+                                        <br />
+
+                                        <h5 class="card-title">@Html.DisplayFor(modelItem => item.Nombre)</h5>
+                                        <p class="card-text">@Html.DisplayFor(modelItem => item.Descripcion)</p>
+                                        <p class="card-text fw-bold">Precio: $RD @Html.DisplayFor(modelItem => item.Precio)</p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+<style>
+
+    /*// AJUSTES DE LAS IMAGENES*/
+    img {
+        max-width: 200%;
+        max-height: 100%;
+    }
+
+    #div3 {
+        display: flex;
+    }
+
+    .cat {
+        height: 200px;
+        width: 200px;
+    }
+
+    #card1 {
+        border-radius: 4px;
+        background: #fff;
+        box-shadow: 0 6px 10px rgba(0,0,0,.08), 0 0 6px rgba(0,0,0,.05);
+        transition: .3s transform cubic-bezier(.155,1.105,.295,1.12),.3s box-shadow,.3s -webkit-transform cubic-bezier(.155,1.105,.295,1.12);
+        padding: 14px 80px 18px 36px;
+        cursor: pointer;
+    }
+
+    .card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
+    }
+
+    #divSpinner {
+        
+        left: 100px;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+        height: 50px;
+        width: 50px;
+        z-index: 3;
+    }
+</style>
+
+<script>
+
+    //FUNCION EN AJAX QUE ME PERMITE ENVIAR LOS DATOS SEGUN LA OPCION ELEGIDA EN CATEGORIA Y
+    //RETORNAR A LA VENTANA CORRESPONDIENTE
+
+    function Categoria() {
+        var Opcion = document.getElementsByName("Categoria")[0].value;
+        $.ajax({
+            data: { "Categoria": Opcion },
+                url: '@Url.Action("/buscar_c")',
+                type: "POST",
+                success: function (response) {
+
+                 $('#Productos').html(response);
+
+                }
+            });
+    }
+
+      //FUNCION EN AJAX QUE ME PERMITE ENVIAR LOS DATOS SEGUN LA OPCION ELEGIDA EN PRECIO Y
+    //RETORNAR A LA VENTANA CORRESPONDIENTE
+
+    function Precio() {
+        var Min = document.getElementsByName("PrecioMinimo")[0].value;
+        var Max = document.getElementsByName("PrecioMaximo")[0].value;
+
+        $.ajax({
+            data: { "PrecioMin": Min, "PrecioMax": Max },
+                url: '@Url.Action("/buscar_p")',
+                type: "POST",
+                success: function (response) {
+
+                 $('#Productos').html(response);
+
+                }
+            });
+    }
+
+    //FUNCION EN AJAX QUE RECIBE POR PARAMTETRO EL ID Y ME PERMITE ENVIAR LOS DATOS SEGUN EL ID CLICKEADO EN LA TARJETA, LUEGO
+    //RETORNA A LA VENTANA CORRESPONDIENTE
+
+    function Producto(id) {
+
+        SpinnerActivar();
+
+        $.ajax({
+            data: { "ID_Producto": id },
+                url: '@Url.Action("/PDetalles")',
+                type: "POST",
+                success: function (response) {
+
+                    $('#DetallesP').html(response).load(SpinnerOcultar());
+
+                }
+                });
+                }
+
+
+</script>

@@ -1,0 +1,85 @@
+﻿@model IEnumerable<CapaEntidad.PRODUCTO>
+
+@{
+    ViewBag.Title = "MostrarProductos";
+}
+
+<div class=" p-3">
+
+    <h2>Productos Tecnologicos</h2>
+    <hr />
+
+
+    <br />
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Precio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ID_Categoria)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Descripcion)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Ubicacion)
+            </th>
+
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Precio)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ID_Categoria)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descripcion)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ubicacion)
+                </td>
+
+                <td>
+                    @*CONVERSION DE IMAGENES*@
+                    @{ string Img = Convert.ToBase64String(item.imagen);
+                    }
+
+                    @*MOSTRAR IMAGENES*@
+                    <div class="cat">
+                        <img id="imagen1" src="@String.Format("data:image/jpeg;base64,{0}", Img)" />
+                    </div>
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+
+<style>
+    /*// AJUSTES DE LAS IMAGENES*/
+    img {
+        max-width: 200%;
+        max-height: 100%;
+    }
+
+    .cat {
+        height: 200px;
+        width: 200px;
+    }
+</style>

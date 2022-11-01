@@ -1,0 +1,385 @@
+﻿@model IEnumerable<CapaEntidad.PRODUCTO>
+
+@{
+    ViewBag.Title = "Lista";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+
+<div id="Detalles">
+
+    @foreach (var item in Model)
+    {
+
+
+        <div class="container mt-5 ">
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-10">
+                    <div class="card" style="height:100%;">
+                        <div class="row">
+                            <div class="col-md-6">
+
+                                @*CONVERSION DE IMAGENES*@
+                                @{ string Img = Convert.ToBase64String(item.imagen);
+                                }
+
+
+                                <div class="images p-3" id="divI">
+                                    <div class="text-center p-4"> <img id="main-image" src="@String.Format("data:image/jpeg;base64,{0}", Img)" width="450" /> </div>
+
+
+                                    <div class="thumbnail text-center"> <img onclick="change_image(this)" width="70">  </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-6" id="divC2">
+                                <div class="product p-4" id="divC">
+
+                                    <div class="d-flex justify-content-between align-items-center" style="position:relative; right:-395px; top: -65px;">
+
+                                        @using (Html.BeginForm("Reporte", "Usuario", FormMethod.Get))
+                                        {
+
+                                            <button class="btn btn-outline-danger" type="submit">
+
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-circle" viewBox="0 0 16 16" style="position:relative; top:-2px; right: 1px;">
+                                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                                    <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z" />
+                                                </svg>
+
+                                                Reportar
+
+                                            </button>
+                                        }
+                                    </div>
+
+                                        <div class="d-flex justify-content-between align-items-center">
+
+                                            @using (Html.BeginForm("MostrarProductos1", "Usuario", FormMethod.Get))
+                                            {
+
+                                                <button class="btn btn-light" type="submit">
+
+                                                    <svg xmlns="http://www.w3.org/2000/svg" height="22" fill="currentColor" class="bi bi-reply-fill" viewBox="0 0 16 16" style="position:relative; top:-1px; color:black;">
+                                                        <path d="M5.921 11.9 1.353 8.62a.719.719 0 0 1 0-1.238L5.921 4.1A.716.716 0 0 1 7 4.719V6c1.5 0 6 0 7 8-2.5-4.5-7-4-7-4v1.281c0 .56-.606.898-1.079.62z" />
+                                                    </svg>
+
+                                                    Regresar
+
+                                                </button>
+                                            }
+
+                                        </div>
+                                        <div class="mt-4 mb-6">
+
+                                            <h5 class="text-uppercase">@item.Nombre</h5>
+                                            <span class="text-uppercase text-muted brand">@item.Descripcion</span>
+                                            <div class="price d-flex flex-row align-items-center">
+                                                <span class="act-price">$RD @item.Precio</span>
+
+                                            </div>
+                                        </div>
+
+                                        @*Si el propietario es existente.*@
+                                        @if (ViewBag.UsuarioPropietario != null)
+                                        {
+
+                                            <div class="cart mt-4 align-items-center">
+
+                                                @using (Html.BeginForm("EditarProductoUsuario", "Usuario", FormMethod.Post))
+                                                {
+
+                                                    <input hidden value="@item.ID" name="ID_Producto" />
+                                                    <button class="btn btn-danger text-uppercase mr-2 px-4" type="submit">
+
+                                                        <svg xmlns="http://www.w3.org/2000/svg" height="22" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16" style="position:relative; top:auto;">
+                                                            <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
+                                                        </svg>
+
+                                                        Modificar artículo
+
+
+                                                    </button>
+                                                }
+                                            </div>
+                                        }
+
+                                        @*Si se cumple la condicion de que el producto se encuentra en carrito.*@
+                                        else if (ViewBag.ProductoCarrito != null)
+                                        {
+
+                                            <div class="cart mt-4 align-items-center">
+
+                                                @* SI LA ESTADO ES IGUAL A 3, SIGINIFICA QUE FUE VENDIDO. *@
+                                                @if (item.Estado == 3)
+                                                {
+
+                                                    <span id="validar" style="position: relative; top:-220px; right:-400px; color: green; font-size:20px;">
+
+                                                        <svg xmlns="http://www.w3.org/2000/svg" height="18" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16" style="position:relative; top:-2px; right:-2.8px;">
+                                                            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                                                        </svg>
+
+                                                        Vendido
+                                                    </span>
+
+
+                                                    <h5>Este artículo no se encuentra disponible.</h5>
+
+                                                    <script>
+
+                                                        document.getElementById('btnCar').hidden = true;
+                                                        document.getElementById('btnv').hidden = true;
+
+
+                                                    </script>
+                                                }
+
+                                                @using (Html.BeginForm("ver_Carrito", "Usuario", FormMethod.Post))
+                                                {
+                                                    <input type="hidden" value="@item.ID" name="IDPRODUCTO" />
+                                                    <input type="hidden" value="0" name="NConfirmacion" />
+
+                                                    <button class="btn btn-danger text-uppercase mr-2 px-4" id="btnCar">
+
+                                                        <svg xmlns="http://www.w3.org/2000/svg" height="20" fill="currentColor" class="bi bi-cart-check-fill" viewBox="0 0 16 16" style="position:relative; top:auto;">
+                                                            <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-1.646-7.646-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L8 8.293l2.646-2.647a.5.5 0 0 1 .708.708z" />
+                                                        </svg>
+
+                                                        Añadido a Carrito
+                                                    </button>
+                                                }
+
+                                            </div>
+
+                                            <div class="cart mt-4 align-items-center">
+
+                                                @using (Html.BeginForm("Contacto", "Usuario", FormMethod.Get))
+                                                {
+                                                   <input hidden value="@item.ID" name="ID_Producto" />
+                                                    <button class="btn btn-danger text-uppercase mr-2 px-4" id="btnv">
+
+                                                        <svg xmlns="http://www.w3.org/2000/svg" height="22" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16" style="position:relative; top:auto;">
+                                                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+                                                            <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
+                                                        </svg>
+
+                                                        Contactar con vendedor
+
+
+                                                    </button>
+                                                }
+                                            </div>
+
+
+                                        }
+
+                                        @*Si no cumple las otras dos condiciones*@
+                                        else
+                                        {
+
+
+                                            <div class="cart mt-4 align-items-center">
+
+                                                @using (Html.BeginForm("ver_Carrito", "Usuario", FormMethod.Post))
+                                                {
+                                                    <input type="hidden" name="IDProducto" value="@item.ID" />
+                                                    <input type="hidden" value="1" name="NConfirmacion" />
+
+                                                    <button class="btn btn-danger text-uppercase mr-2 px-4" type="submit">
+
+                                                        <svg xmlns="http://www.w3.org/2000/svg" height="22" fill="currentColor" class="bi bi-cart-plus-fill" viewBox="0 0 16 16" style="position:relative; top:auto;">
+                                                            <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM9 5.5V7h1.5a.5.5 0 0 1 0 1H9v1.5a.5.5 0 0 1-1 0V8H6.5a.5.5 0 0 1 0-1H8V5.5a.5.5 0 0 1 1 0z" />
+                                                        </svg>
+
+                                                        Añadir a Carrito
+                                                    </button>
+
+                                                }
+                                            </div>
+
+
+                                            <div class="cart mt-4 align-items-center">
+
+                                                @using (Html.BeginForm("Contacto", "Usuario", FormMethod.Get))
+                                                {
+                                                    <input hidden value="@item.ID" name="ID_Producto" />
+
+                                                    <button class="btn btn-danger text-uppercase mr-2 px-4" id="btnv">
+
+                                                        <svg xmlns="http://www.w3.org/2000/svg" height="22" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16" style="position:relative; top:auto;">
+                                                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+                                                            <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
+                                                        </svg>
+
+                                                        Contactar con vendedor
+                                                    </button>
+                                                }
+                                            </div>
+
+
+                                        }
+
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    }
+
+    }
+
+    @* LIBRERIAS *@
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+  
+    <!-- Bootstrap core JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+
+</div>
+
+
+
+
+
+
+<style>
+    #divI {
+        position: relative;
+        top: 80px;
+        left: 0px;
+    }
+
+    #divC {
+        position: relative;
+        top: 50px;
+        left: 0px;
+    }
+
+
+    #divC2 {
+        background-color: #eee;
+        height: 500px;
+    }
+
+
+    body {
+        background-color: #141414
+    }
+
+    .card {
+        border: none
+    }
+
+
+    .brand {
+        font-size: 13px
+    }
+
+    .act-price {
+        color: red;
+        font-weight: 700
+    }
+
+    .dis-price {
+        text-decoration: line-through
+    }
+
+    .about {
+        font-size: 14px
+    }
+
+    .color {
+        margin-bottom: 10px
+    }
+
+    label.radio {
+        cursor: pointer
+    }
+
+        label.radio input {
+            position: absolute;
+            top: 0;
+            left: 0;
+            visibility: hidden;
+            pointer-events: none
+        }
+
+        label.radio span {
+            padding: 2px 9px;
+            border: 2px solid #ff0000;
+            display: inline-block;
+            color: #ff0000;
+            border-radius: 3px;
+            text-transform: uppercase
+        }
+
+        label.radio input:checked + span {
+            border-color: #ff0000;
+            background-color: #ff0000;
+            color: #fff
+        }
+
+    .btn-danger {
+        background-color: #f80000;
+        border-color: #ff0000
+    }
+
+    #btnv {
+        background-color: #ff4040;
+        border-color: #ff0000
+    }
+
+    .btn-danger:hover {
+        background-color: #da0606;
+        border-color: #da0606
+    }
+
+    .btn-danger:focus {
+        box-shadow: none
+    }
+
+    .cart i {
+        margin-right: 8px
+    }
+
+    footer {
+        position: relative;
+        top: 80px;
+    }
+
+    .card {
+        border-radius: 4px;
+        box-shadow: 0 6px 10px rgba(0,0,0,.08), 0 0 6px rgba(0,0,0,.05);
+        transition: .3s transform cubic-bezier(.155,1.105,.295,1.12),.3s box-shadow,.3s -webkit-transform cubic-bezier(.155,1.105,.295,1.12);
+        cursor: pointer;
+    }
+
+    /*// AJUSTES DE LAS IMAGENES*/
+
+
+    .cat {
+        height: 200px;
+        width: 200px;
+    }
+
+    #div3 {
+        display: flex;
+    }
+
+        #div3 input {
+            margin-right: 10px;
+        }
+
+    #divN {
+        display: flex;
+    }
+</style>
+

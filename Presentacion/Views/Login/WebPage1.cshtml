@@ -1,0 +1,175 @@
+﻿@model CapaEntidad.USUARIO
+
+@{
+    ViewBag.Title = "Register";
+}
+
+
+@using (Html.BeginForm("WebPage1", "Login", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Styles.Render("~/Content/css/sb-admin-2.min.css")
+    //<link href="css/sb-admin-2.min.css" rel="stylesheet">
+    <div class="container">
+
+        <div class="card o-hidden border-0 shadow-lg my-5">
+            <div class="card-body p-0">
+                <!-- Nested Row within Card Body -->
+                <div class="row">
+                    <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
+                    <div class="col-lg-7">
+                        <div class="p-5">
+                            <div class="text-center">
+                                <h1 class="h4 text-gray-900 mb-4">Crear una Cuenta</h1>
+                            </div>
+                            <form class="user">
+
+
+
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input type="text" class="form-control form-control-user" id="B1"
+                                               placeholder="Nombre" name="Nombre" onkeyup="ConfirmarDatosNoNulos()">
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control form-control-user"
+                                               placeholder="Teléfono" name="TELEFONO" id="B2" onkeyup="ConfirmarDatosNoNulos()">
+
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+                                    <input type="email" class="form-control form-control-user" id="B3"
+                                           placeholder="Correo" name="Correo" onkeyup="ConfirmarDatosNoNulos()">
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input type="password" class="form-control form-control-user"
+                                               id="Password1" placeholder="Contraseña">
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="password" class="form-control form-control-user"
+                                               id="Password2" placeholder="Repetir Contraseña" name="Contrasena" onkeyup="ConfirmarContrasena()">
+                                        <p id="Texto2"></p>
+
+                                    </div>
+                                    @* Alerta del Correo repetido *@
+                                    @if (ViewBag.Error != null)
+                                    {
+                                        <div style="margin: 20px 0px;" class="alert alert-warning" role="alert">
+                                            @ViewBag.Error
+                                        </div>
+                                    }
+                                </div>
+
+                                <div class="d-grid gap-2">
+                                    <button type="submit" class="btn btn-primary btn-lg" id="btnConfirmar" disabled>
+                                        Registrarme
+                                    </button>
+                                </div>
+
+
+
+                            </form>
+
+                            <div style="padding: 10px;" class="text-center">
+                                @Html.ActionLink("¿Tienes una cuenta? Inicia sesión", "login", "login")
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+}
+
+
+<script>
+
+    // FUNCION DE VALIDACION DE CAMPOS DE CONTRASENA
+
+    function ConfirmarContrasena() {
+
+        // CREACION DE VARIABLES QUE ALMACENA LOS CAMPOS DE CONTRASENA.
+        const p1 = document.getElementById("Password1").value;
+        const p2 = document.getElementById("Password2").value;
+
+
+        // CONDICION QUE ME VALIDA A TRAVES DE UN EVENTO ONKEYUP SI AMBOS VALORES
+        // DE LOS INPUTS SON IGUALES
+
+        if (p1 != p2) {
+            document.getElementById('Texto2').textContent = "Los campos no coinciden";
+            document.getElementById('Texto2').style.color = "darkred";
+            document.getElementById('btnConfirmar').disabled = true;
+
+
+        }
+
+        else {
+            document.getElementById('Texto2').textContent = "Todo es correcto";
+            document.getElementById('Texto2').style.color = "green";
+            document.getElementById('btnConfirmar').disabled = false;
+
+        }
+
+        // EN CASO DE ELIMINAR TODO EL CONTENIDO DEL INPUT CONFIRMAR CONTRASENA
+        // ME ELIMINARA EL TEXTO QUE ME CONFIRMA LA VALIDACION DE LA CONTRASENA.
+
+        if (p2 === "" || p2 === null) {
+            document.getElementById('Texto2').textContent = "";
+        }
+
+    }
+
+    // FUNCION QUE DESHABILITA SI LOS CAMPOS SON NULOS O HABILITA EL BOTON SI HAY DATOS.
+    function ConfirmarDatosNoNulos() {
+
+        // CREACION DE VARIABLES QUE ALMACENARA LOS DATOS DE LOS CAMPOS
+        const p1 = document.getElementById("Password1").value;
+        const p2 = document.getElementById("Password2").value;
+        const p3 = document.getElementById("B1").value;
+        const p4 = document.getElementById("B2").value;
+        const p5 = document.getElementById("B3").value;
+
+        // CONDICIONAL QUE VERIFICA SI LOS CAMPOS SON NULOS Y DESACTIVA EL BOTON DE REGISTRO.
+        if (p3 === "" || p4 === "" || p5 === "") {
+
+            document.getElementById('btnConfirmar').disabled = true;
+
+        }
+        // SI NO SON NULOS PUES ACTIVARA EL BOTON
+        else if (p3 != "" && p4 != "" && p5 != "") {
+
+            // SI LOS CAMPOS DE CONTRASENA NO SON NULOS, HABILITARA EL BOTON.
+            if (p1 != "" && p2 != "") {
+
+                document.getElementById('btnConfirmar').disabled = false;
+            }
+            // SI SON NULOS, SE DESHABILITARA EL BOTON.
+            else {
+                document.getElementById('btnConfirmar').disabled = true;
+            }
+
+        }
+
+
+
+    }
+
+    // MASCARA DEL INPUT TELEFONO
+
+    function MaskT() {
+        $("#B2").mask("000-000-0000");
+    }
+
+    // LLAMAR FUNCION.
+    MaskT();
+
+
+</script>

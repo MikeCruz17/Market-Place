@@ -1,0 +1,88 @@
+﻿@model CapaEntidad.USUARIO
+
+@{
+    ViewBag.Title = "EditarUsuario";
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+<div style="margin-top: 50px;" class="d-flex flex-column align-items-center">
+    <div style="width: 400px;" class="d-flex flex-column align-items-center shadow-lg p-3 mb-5 bg-body rounded">
+        <h4>USUARIO</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.ID)
+
+        <div style="width: 220px;" class="d-flex flex-column align-items-center">
+            <div class="col-md-10">
+                @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div style="width: 220px;" class="d-flex flex-column align-items-center">
+            <div class="col-md-10">
+                @Html.LabelFor(model => model.Correo, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.EditorFor(model => model.Correo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Correo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div style="width: 220px;" class="d-flex flex-column align-items-center">
+            <div class="col-md-10">
+                @Html.LabelFor(model => model.Id_Rol, htmlAttributes: new { @class = "control-label col-md-2" })
+                <select class="form-control" id="Id_Rol" name="Id_Rol">
+                    <option value="1">Administrador</option>
+                    <option value="2">Usuario</option>
+                </select>
+                @Html.ValidationMessageFor(model => model.Id_Rol, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div style="width: 220px;" class="d-flex flex-column align-items-center">
+            <div class="col-md-10">
+                @Html.LabelFor(model => model.Id_Estado, htmlAttributes: new { @class = "control-label col-md-2" })
+                <select class="form-control" id="Id_Estado" name="Id_Estado">
+                    <option value="1">Habilitado</option>
+                    <option value="2">Deshabilitado</option>
+                </select>
+                @Html.ValidationMessageFor(model => model.Id_Estado, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div style="width: 220px;" class="d-flex flex-column align-items-center">
+            <div class="col-md-10">
+                @Html.LabelFor(model => model.Contrasena, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.EditorFor(model => model.Contrasena, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Contrasena, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div style="width: 220px;" class="d-flex flex-column align-items-center">
+            <div class="col-md-10">
+                @Html.LabelFor(model => model.TELEFONO, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.EditorFor(model => model.TELEFONO, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.TELEFONO, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input style="width: 100px; margin: 10px;" type="submit" value="GUARDAR" class="btn btn-primary" />
+            </div>
+        </div>
+        <div>
+            <span style="width: 200px; margin: 5px;">@Html.ActionLink("REGRESAR", "TablaUsuario", "Home", new { @class = "btn btn-secondary" })</span>
+        </div>
+    </div>
+</div>
+
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

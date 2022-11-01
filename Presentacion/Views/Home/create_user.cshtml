@@ -1,0 +1,57 @@
+﻿
+
+@{
+    ViewBag.Title = "Create_User";
+}
+
+<div style="margin-top: 50px;" class="d-flex flex-column align-items-center">
+    <h4>NUEVO ESTUDIAMTE</h4>
+    <hr />
+    <div style="width: 400px;" class="d-flex flex-column align-items-center shadow-lg p-3 mb-5 bg-body rounded">
+        <form asp-action="AddStudent">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <input type="hidden" asp-for="ID" />
+                <label asp-for="Name" class="control-label">Nombre</label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Fname" class="control-label">Apellido</label>
+                <input asp-for="Fname" class="form-control" />
+                <span asp-validation-for="Fname" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label">Email</label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Mobile" class="control-label">Number</label>
+                <input asp-for="Mobile" class="form-control" />
+                <span asp-validation-for="Mobile" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Department" class="control-label">Departamento</label>
+                <select asp-for="DepID" class="form-control" @*asp-items="(new SelectList(ViewBag.DepList,"ID","Department"))"*@>
+                </select>
+
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Description" class="control-label">Description</label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <div style="margin: 5px;" class="d-flex flex-row justify-content-center align-items-center">
+                <input style="margin: 5px" ; type="submit" value="Save" class="btn btn-primary" />
+                <a style="margin: 5px" ; asp-action="StudentList" class="btn btn-dark">Student List</a>
+            </div>
+        </form>
+    </div>
+</div>
+

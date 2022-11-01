@@ -1,0 +1,283 @@
+﻿@model CapaEntidad.PRODUCTO
+
+@{
+    ViewBag.Title = "AgregarProducto";
+    Layout = "~/Views/Shared/_BarraNavegacion.cshtml";
+}
+
+@* LIBRERIA DE ALERTAS *@
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+
+
+@if (TempData["Confirmacion3"] != null)
+{
+
+    <script>
+
+        Swal.fire({
+            icon: 'question',
+            title: 'Desea guardar los cambios?',
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: 'Si',
+            denyButtonText: `No`,
+
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+
+                function Cambio() {
+                    document.getElementById('Opcion').value = "Si";
+                    document.querySelector('#BTNGUARDAR').click();
+
+
+                }
+                Cambio();
+
+            } else if (result.isDenied) {
+                Swal.fire('La petición fue cancelada.', '', 'info')
+            }
+        })
+
+
+
+
+    </script>
+}
+
+
+@using (Html.BeginForm("AgregarProducto1", "Usuario", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        <div class="p-3">
+            <h4>Crear Producto</h4>
+            <hr />
+        </div>
+
+
+        <div class="w-25 p-3" id="div1">
+
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Precio, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Precio, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Precio, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Categoría</label>
+                <div class="col-md-10">
+
+                    @if (TempData["ID"] != null)
+                    {
+                        int Cate = (int)TempData["ID"];
+
+                        <input hidden value="@Cate" id="Cate" />
+
+                        <select class="form-select" name="ID_Categoria" style="width:290px;" id="Select2">
+                            <option selected>Seleccionar Categoria</option>
+                            <option value="1">PC/Computadora</option>
+                            <option value="2">Audifonos</option>
+                            <option value="3">Laptop</option>
+
+                        </select>
+
+                        <script>
+
+
+                            //////////////////////////////////////////////////////////////////////////////////////////
+                            // ------------------------------------ SELECT CATEGORIA ------------------------------ //
+                            //////////////////////////////////////////////////////////////////////////////////////////
+
+
+                            // OBTENER VALOR DE VARIABLE
+                            const Resultado = document.getElementById("Cate").value;
+
+                            // CONDICIONAL SEGUN EL RESULTADO
+                            if (Resultado > 0) {
+
+                                // OPCION A ELEGIR SI EL VALOR ES IGUAL A UNO.
+
+                                const SeleccionOpcion = (e) => {
+                                    const $select = document.querySelector('#Select2');
+
+                                    $select.querySelectorAll('option')[Resultado].selected = 'selected'
+                                }
+
+
+                                SeleccionOpcion();
+
+                            }
+
+
+                        </script>
+
+
+
+                    }
+                    else
+                    {
+
+                        <select class="form-select" name="ID_Categoria" style="width:290px;" id="Select2">
+                            <option selected>Seleccionar Categoria</option>
+                            <option value="1">PC/Computadora</option>
+                            <option value="2">Audifonos</option>
+                            <option value="3">Laptop</option>
+
+                        </select>
+
+                    }
+
+
+
+
+
+
+
+
+
+                </div>
+            </div>
+
+
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Ubicacion, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Ubicacion, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Ubicacion, "", new { @class = "text-danger" })
+                </div>
+
+
+
+            </div>
+
+
+
+
+            <div class="mb-3">
+                <label for="formFile" class="form-label">Imagen</label>
+                <input class="form-control w-auto" type="file" id="formFile" name="imagene" onchange="preview()">
+
+            </div>
+
+
+            <div class="form-group">
+                <input type="hidden" value="NA" name="Opcion" id="Opcion" />
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Crear" class="btn btn-dark btn-lg" id="BTNGUARDAR" />
+                </div>
+            </div>
+
+        </div>
+        <div id="div2">
+
+            @if (TempData["Foto"] == null)
+            {
+                <img id="frame" src="~/Fotos/Logo.png" class="img-fluid" />
+
+            }
+            else
+            {
+
+                @*CONVERSION DE IMAGENES*@
+
+                var Imagen = (Byte[])TempData["Foto"];
+                string Img = Convert.ToBase64String(Imagen);
+
+                <img id="frame" src="@String.Format("data:image/jpeg;base64,{0}", Img)" style="height:400px;" />
+
+
+
+            }
+
+
+
+
+
+        </div>
+
+
+
+    </div>
+
+
+
+    @* MODIFICACIONES EN LOS DIVS E IMAGENES. *@
+
+    <style>
+        #div1 {
+            float: left;
+        }
+
+        #div2 {
+            float: right;
+            height: 400px;
+            width: 400px;
+        }
+
+        img {
+            top: -1px; /*Mover la alineacion en la pagina*/
+            left: -200px;
+            position: relative;
+            max-height: auto;
+            max-width: auto
+        }
+
+
+        img {
+            border: 3px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+        }
+
+            img:hover {
+                box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+            }
+
+        footer {
+            position: relative;
+            top: 500px;
+        }
+    </style>
+
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+@*// FUNCION QUE ME MUESTRA UNA VISUALIZACION DE LA IMAGEN CARGADA.*@
+<script>
+    function preview() {
+        frame.src = URL.createObjectURL(event.target.files[0]);
+    }
+
+</script>

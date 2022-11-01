@@ -1,0 +1,77 @@
+﻿
+@{
+    ViewBag.Title = "AdminPage";
+}
+<div style="padding: 100px;" class="d-flex flex-column align-items-center">
+
+    <h4>LIST</h4>
+
+    <div style="width: 100%;" class="d-flex flex-row justify-content-end">
+        <a asp-action="Create" class="btn btn-primary">AÑADIR</a>     
+    </div>
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+
+                <th>
+                    Nombre
+                </th>
+                <th>
+                    Apellido
+                </th>
+                <th>
+                    Email
+                </th>
+
+                <th>
+                    Number
+                </th>
+                <th>
+                    Departamento
+                </th>
+
+                <th>
+                    Descripcion
+                </th>
+
+                <th>Actions</th>
+
+
+            </tr>
+        </thead>
+        <tbody>
+            @*@foreach (var item in Model)*@
+            <tr>
+
+                <td>
+                    Name
+                </td>
+                <td>
+                    Fname
+                </td>
+                <td>
+                    Email
+                </td>
+
+                <td>
+                    Mobile
+                </td>
+                <td>
+                    Department
+                </td>
+
+                <td>
+                    Description
+                </td>
+
+                <td class="d-flex flex-row justify-content-start">
+                    <div style="margin: 5px;">@Html.ActionLink("EDITAR", "Create", "Home", new { @class = "btn btn-warning" })</div>
+                    <div style="margin: 5px;">@Html.ActionLink("DELETE", "DeleteStd", "Home", new { @class = "btn btn-danger" })</div>
+                </td>
+
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+

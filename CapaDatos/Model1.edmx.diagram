@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="2f0646a8d05642cb8438019397a7bd63" Name="Diagram1" ZoomLevel="62">
+        <EntityTypeShape EntityType="db_a83dd0_markeplaceModel.CARRITO" Width="1.5" PointX="5.25" PointY="3.5" />
+        <EntityTypeShape EntityType="db_a83dd0_markeplaceModel.CATEGORIA" Width="1.5" PointX="6" PointY="0.75" />
+        <EntityTypeShape EntityType="db_a83dd0_markeplaceModel.ESTADO" Width="1.5" PointX="0.75" PointY="3.625" />
+        <EntityTypeShape EntityType="db_a83dd0_markeplaceModel.PRODUCTO" Width="1.5" PointX="8.25" PointY="2.75" />
+        <EntityTypeShape EntityType="db_a83dd0_markeplaceModel.ROL" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="db_a83dd0_markeplaceModel.USUARIO" Width="1.5" PointX="3" PointY="3" />
+        <AssociationConnector Association="db_a83dd0_markeplaceModel.fk_PRODUCTO11" />
+        <AssociationConnector Association="db_a83dd0_markeplaceModel.fk_USUARIO21" />
+        <AssociationConnector Association="db_a83dd0_markeplaceModel.fk_Categoria11" />
+        <AssociationConnector Association="db_a83dd0_markeplaceModel.fk_Estado11" />
+        <AssociationConnector Association="db_a83dd0_markeplaceModel.fk_Estado21" />
+        <AssociationConnector Association="db_a83dd0_markeplaceModel.fk_Usuario11" />
+        <AssociationConnector Association="db_a83dd0_markeplaceModel.fk_Rol11" />
+        <EntityTypeShape EntityType="db_a83dd0_markeplaceModel.MostrarCarrito" Width="1.5" PointX="5.75" PointY="6.75" />
+        <EntityTypeShape EntityType="db_a83dd0_markeplaceModel.TABLAREPORTE" Width="1.5" PointX="0.75" PointY="7.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

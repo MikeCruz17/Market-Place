@@ -1,0 +1,196 @@
+﻿@model IEnumerable<CapaEntidad.PRODUCTO>
+
+@{
+    ViewBag.Title = "MostrarProductos";
+    Layout = "~/Views/Shared/_BarraNavegacion.cshtml";
+
+}
+
+
+
+<script>
+
+    // FUNCION QUE ME ACTIVA EL SPINNER OCULTO
+    function SpinnerActivar() {
+
+        document.getElementById('divSpinner').hidden = false;
+    }
+
+    // FUNCION QUE ME DESACTIVA EL SPINNER
+    function SpinnerOcultar() {
+
+        document.getElementById('divSpinner').hidden = true;
+    }
+
+</script>
+
+
+@*DIV PARA MOSTRAR LA VISTA PARCIAL*@
+<div id="DetallesP">
+
+
+    @*FOOTER*@
+    <header class="py-5" id="head2">
+        <div class="container px-4 px-lg-5 my-5">
+            <div class="text-center text-white">
+                <h1 class="display-4 fw-bolder">¡Bienvenido a la Tienda Virtual de Tecnología!</h1>
+                <p class="lead fw-normal text-white mb-0">La mejor tienda virtual de República Dominicana</p>
+            </div>
+        </div>
+    </header>
+
+
+    @*FILTROS*@
+<div class="container-fluid w-100">
+
+
+    @* SPINNER O CIRCULO DE CARGA *@
+    <div class="spinner-grow text-dark" role="status" id="divSpinner" style="position: absolute; top:400px; right:50px;" hidden>
+      
+    </div>
+
+    @*PRODUCTOS*@
+
+    <div class="col">
+
+        <br />
+        <h2 class="text-center">Recién llegado</h2>
+
+
+
+        <div class="row align-items-center">
+            <div class="row row-cols-1 row-cols-md-3 g-3">
+
+
+                @foreach (var item in Model)
+                {
+
+                    @*EVENTO QUE TOMA EL ID DEL PRODUCTO Y ME MUESTRA UNA VISTA PARCIAL DE LOS DETALLES DEL PRODUCTOS.*@
+                    <div class="col" onclick="Producto(@item.ID)">
+                        <div class="card" id="card1" style="height:450px; width: 28rem;">
+
+
+                            @*CONVERSION DE IMAGENES*@
+                            @{ string Img = Convert.ToBase64String(item.imagen);
+                            }
+
+
+                            <div class="text-center" id="div4">
+                                <img id="imagen1" src="@String.Format("data:image/jpeg;base64,{0}", Img)" />
+
+
+                            </div>
+                            <div class="card-body">
+
+                                <br />
+                                <br />
+                                <h6 class="card-title">@Html.DisplayFor(modelItem => item.Nombre)</h6>
+                                <p class="card-text">@Html.DisplayFor(modelItem => item.Descripcion)</p>
+                                <p class="card-text fw-bold">Precio: $RD @Html.DisplayFor(modelItem => item.Precio)</p>
+
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                }
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    <br />
+    <br />
+
+</div>
+
+<style>
+
+    /*// AJUSTES DE LAS IMAGENES*/
+    #imagen1 {
+        height: 115%;
+    }
+
+    #div4 {
+        height: 200px;
+    }
+
+    .cat {
+        height: 200px;
+        width: 200px;
+    }
+
+    #div3 {
+        display: flex;
+    }
+
+        #div3 input {
+            margin-right: 10px;
+        }
+
+    #divN {
+        display: flex;
+    }
+
+    #card1 {
+        border-radius: 4px;
+        background: #fff;
+        box-shadow: 0 6px 10px rgba(0,0,0,.08), 0 0 6px rgba(0,0,0,.05);
+        transition: .3s transform cubic-bezier(.155,1.105,.295,1.12),.3s box-shadow,.3s -webkit-transform cubic-bezier(.155,1.105,.295,1.12);
+        padding: 14px 80px 18px 36px;
+        cursor: pointer;
+    }
+
+    .card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
+    }
+
+    #head2 {
+        background-image: url('/Fotos/Estilo.png');
+        position: relative;
+        /*La siguiente medida es porque no encontre una imagen como la que quieres tu*/
+        background-size: 40% auto;
+        background-repeat: repeat-x;
+        min-height: 50vh;
+        top: -10px;
+    }
+
+    #divSpinner {
+        top: 0;
+        left: 100px;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+        height: 200px;
+        width: 200px;
+        z-index: 3;
+    }
+</style>
+
+<script>
+
+    //FUNCION EN AJAX QUE RECIBE POR PARAMTETRO EL ID Y ME PERMITE ENVIAR LOS DATOS SEGUN EL ID CLICKEADO EN LA TARJETA, LUEGO
+    //RETORNA A LA VENTANA CORRESPONDIENTE
+
+    function Producto(id) {
+
+        SpinnerActivar();
+
+        $.ajax({
+            data: { "ID_Producto": id },
+                url: '@Url.Action("/PDetalles")',
+                type: "POST",
+                success: function (response) {
+
+                    $('#DetallesP').html(response).load(SpinnerOcultar());
+                    $(".divSpinner").remove();
+                }
+                });
+                }
+</script>
+
